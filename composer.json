@@ -1,5 +1,5 @@
 {
-    "name": "sarjon/pssymfonytraining",
+    "name": "sarjon/pstraining",
     "type": "prestashop-module",
     "license": "MIT",
     "authors": [
@@ -10,7 +10,7 @@
     ],
     "autoload": {
       "psr-4": {
-        "Invertus\\PsSymfonyTraining\\": "src/"
+        "Invertus\\PsTraining\\": "src/"
       }
     }
 }
