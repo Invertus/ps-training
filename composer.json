@@ -1,0 +1,12 @@
+{
+    "name": "sarjon/pssymfonytraining",
+    "type": "prestashop-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Šarūnas Jonušas",
+            "email": "jonusas.sarunas@gmail.com"
+        }
+    ],
+    "require": {}
+}
