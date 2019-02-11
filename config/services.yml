@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    public: true
+
+  invertus.ps_training.language.decorating_language_activator:
+    class: 'Invertus\PsTraining\Language\DecoratingLanguageActivator'
+    arguments:
+      - '@invertus.ps_training.language.decorating_language_activator.inner'
+      - '@prestashop.adapter.legacy.configuration'
+    decorates: 'prestashop.adapter.language.activator'
