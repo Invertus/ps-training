@@ -1,3 +1,6 @@
+parameters:
+  exchange_rates_api_endpoint: 'https://exchangeratesapi.io'
+
 services:
   _defaults:
     public: true
@@ -8,3 +11,8 @@ services:
       - '@invertus.ps_training.language.decorating_language_activator.inner'
       - '@prestashop.adapter.legacy.configuration'
     decorates: 'prestashop.adapter.language.activator'
+
+  invertus.ps_training.currency.exchange_rates_currency_rate_updater:
+    class: 'Invertus\PsTraining\Currency\ExchangeRatesCurrencyRateUpdater'
+    arguments:
+      - '%exchange_rates_api_endpoint%'
