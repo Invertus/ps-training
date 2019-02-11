@@ -1,5 +1,6 @@
 <?php
 
+use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Filter\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,6 +17,11 @@ class PsTraining extends Module
         parent::__construct();
 
         $this->displayName = $this->trans('PrestaShop Training module');
+    }
+
+    public function getContent()
+    {
+        Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('admin_ps_training_trainings_index'));
     }
 
     public function install()

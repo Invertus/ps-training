@@ -1,0 +1,4 @@
+admin_ps_training_trainings_index:
+  path: /ps-training/trainings
+  methods: [GET]
+  controller: Invertus\PsTraining\Controller\Admin\TrainingController::index
