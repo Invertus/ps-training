@@ -25,7 +25,10 @@ class PsTraining extends Module
             $this->registerHook('actionLanguageGridQueryBuilderModifier') &&
             $this->registerHook('actionLanguageGridPresenterModifier') &&
             $this->registerHook('actionLanguageGridGridFilterFormModifier') &&
-            $this->registerHook('actionLanguageGridGridDataModifier')
+            $this->registerHook('actionLanguageGridGridDataModifier') &&
+
+            $this->registerHook('actionGeneralPageForm') &&
+            $this->registerHook('actionGeneralPageSave')
         ;
     }
 
@@ -57,5 +60,22 @@ class PsTraining extends Module
                 ])
             )
         ;
+    }
+
+    public function hookActionGeneralPageForm(array $params)
+    {
+        /** @var \Symfony\Component\Form\FormBuilder $formBuilder */
+        $formBuilder = $params['form_builder'];
+
+        $formBuilder->add('shop_motto', TextType::class, [
+            'data' => Configuration::get('PS_TRAINING_SHOP_MOTTO'),
+        ]);
+    }
+
+    public function hookActionGeneralPageSave(array $params)
+    {
+        $motto = $params['form_data']['shop_motto'];
+
+        Configuration::updateValue('PS_TRAINING_SHOP_MOTTO', $motto);
     }
 }
