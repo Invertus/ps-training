@@ -1,5 +1,9 @@
 <?php
 
+use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
+use PrestaShop\PrestaShop\Core\Grid\Filter\Filter;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 class PsTraining extends Module
 {
     public function __construct()
@@ -22,6 +26,36 @@ class PsTraining extends Module
             $this->registerHook('actionLanguageGridPresenterModifier') &&
             $this->registerHook('actionLanguageGridGridFilterFormModifier') &&
             $this->registerHook('actionLanguageGridGridDataModifier')
+        ;
+    }
+
+    public function hookActionLanguageGridDefinitionModifier(array $params)
+    {
+        /** @var \PrestaShop\PrestaShop\Core\Grid\Definition\GridDefinitionInterface $definition */
+        $definition = $params['definition'];
+
+        $definition->getColumns()
+            ->remove('id_lang')
+            ->addAfter(
+                'date_format_full',
+                (new DataColumn('locale'))
+                    ->setName('LOCALE')
+                    ->setOptions([
+                        'field' => 'locale',
+                    ])
+            )
+        ;
+
+        $definition->getFilters()
+            ->remove('id_lang')
+            ->add((new Filter('locale', TextType::class))
+                ->setAssociatedColumn('locale')
+                ->setTypeOptions([
+                    'attr' => [
+                        'placeholder' => 'SEARCH ISO CODE',
+                    ],
+                ])
+            )
         ;
     }
 }
