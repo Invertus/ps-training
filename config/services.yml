@@ -33,3 +33,33 @@ services:
       - '@invertus.ps_training.currency.exchange_rates_currency_rate_updater'
     tags:
       - { name: console.command }
+
+  invertus.ps_training.grid.query_builder.product_query_builder:
+    class: 'Invertus\PsTraining\Grid\QueryBuilder\ProductQueryBuilder'
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+      - "@=service('prestashop.adapter.legacy.context').getContext().language.id"
+      - "@=service('prestashop.adapter.legacy.context').getContext().shop.id"
+
+  invertus.ps_training.grid.definition.product_grid_definition_factory:
+    class: 'Invertus\PsTraining\Grid\Definition\ProductGridDefinitionFactory'
+    parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
+    public: true
+
+  invertus.ps_training.grid.product_data_factory:
+    class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+    arguments:
+      - '@invertus.ps_training.grid.query_builder.product_query_builder'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'ps_training_product'
+
+  invertus.ps_training.grid.product_grid_factory:
+    class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+    arguments:
+      - '@invertus.ps_training.grid.definition.product_grid_definition_factory'
+      - '@invertus.ps_training.grid.product_data_factory'
+      - '@prestashop.core.grid.filter.form_factory'
+    calls:
+      - [setHookDispatcher, ['@prestashop.core.hook.dispatcher']]

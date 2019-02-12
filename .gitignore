@@ -1,1 +1,4 @@
 /vendor/
+/public/build/
+!/public/build/.gitkeep
+/node_modules/
