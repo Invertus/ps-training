@@ -1,5 +1,5 @@
 parameters:
-  exchange_rates_api_endpoint: 'https://exchangeratesapi.io'
+  exchange_rates_api_endpoint: 'https://api.exchangeratesapi.io/latest'
 
 services:
   _defaults:
@@ -12,7 +12,24 @@ services:
       - '@prestashop.adapter.legacy.configuration'
     decorates: 'prestashop.adapter.language.activator'
 
+  invertus.ps_training.service.guzzle_client_factory:
+    class: 'Invertus\PsTraining\Service\GuzzleClientFactory'
+
+  invertus.ps_training.http_client.exchange_rates_guzzle_client:
+    class: 'GuzzleHttp\Client'
+    factory: 'invertus.ps_training.service.guzzle_client_factory:create'
+    arguments:
+      - '%exchange_rates_api_endpoint%'
+
   invertus.ps_training.currency.exchange_rates_currency_rate_updater:
     class: 'Invertus\PsTraining\Currency\ExchangeRatesCurrencyRateUpdater'
     arguments:
-      - '%exchange_rates_api_endpoint%'
+      - '@invertus.ps_training.http_client.exchange_rates_guzzle_client'
+      - '@=service("prestashop.adapter.legacy.configuration").get("PS_CURRENCY_DEFAULT")'
+
+  invertus.ps_training.command.update_currency_ratio_command:
+    class: 'Invertus\PsTraining\Command\UpdateCurrencyRatioCommand'
+    arguments:
+      - '@invertus.ps_training.currency.exchange_rates_currency_rate_updater'
+    tags:
+      - { name: console.command }

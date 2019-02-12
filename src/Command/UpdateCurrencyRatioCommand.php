@@ -26,16 +26,43 @@
 
 namespace Invertus\PsTraining\Command;
 
+use Invertus\PsTraining\Currency\CurrencyRateUpdaterInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCurrencyRatioCommand extends Command
+final class UpdateCurrencyRatioCommand extends Command
 {
     protected static $defaultName = 'ps-training:update-currency-ratio';
 
-    public function __construct()
+    /**
+     * @var CurrencyRateUpdaterInterface
+     */
+    private $currencyRateUpdater;
+
+    public function __construct(CurrencyRateUpdaterInterface $currencyRateUpdater)
     {
-
-
         parent::__construct();
+
+        $this->currencyRateUpdater = $currencyRateUpdater;
+    }
+
+    protected function configure()
+    {
+        $this
+            ->setDescription('Updates currency rate in shop')
+            ->setHelp('This command allows you to update currency rate in your shop')
+            ->addArgument('currency_iso_code', InputArgument::REQUIRED)
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $currencyIsoCode = $input->getArgument('currency_iso_code');
+
+        $newRate = $this->currencyRateUpdater->update($currencyIsoCode);
+
+        $output->writeln(sprintf('New rate for currency "%s" is %s', $currencyIsoCode, $newRate));
     }
 }

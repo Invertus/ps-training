@@ -27,6 +27,7 @@
 namespace Invertus\PsTraining\Currency;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Implementation of currency rate updater using https://api.exchangeratesapi.io rates
@@ -39,19 +40,39 @@ final class ExchangeRatesCurrencyRateUpdater implements CurrencyRateUpdaterInter
     private $client;
 
     /**
-     * @param string $endpoint
+     * @param ClientInterface $guzzleClient
      */
-    public function __construct($endpoint)
+    public function __construct(ClientInterface $guzzleClient)
     {
-        $this->client = new Client([
-            'base_url' => $endpoint
-        ]);
+        $this->client = $guzzleClient;
     }
 
+    /**
+     * @param string $isoCode
+     *
+     * @return float New currency rate
+     *
+     * @throws RateNotFoundException If rate by currency is not found
+     */
     public function update($isoCode)
     {
-        $response = $this->client->get('/latest');
+        $defaultShopCurrency = 'EUR';
 
-        die('OK');
+        $response = $this->client->get('/latest', [
+            'query' => [
+                'base' => $defaultShopCurrency,
+            ],
+        ]);
+
+        $rates = json_decode($response->getBody(), true);
+
+        if (!isset($rates['rates'][$isoCode])) {
+            throw new RateNotFoundException(sprintf('Rate for currency "%s" was not found', $isoCode));
+        }
+
+        // do actual update
+        // ...
+
+        return $rates['rates'][$isoCode];
     }
 }
