@@ -63,3 +63,8 @@ services:
       - '@prestashop.core.grid.filter.form_factory'
     calls:
       - [setHookDispatcher, ['@prestashop.core.hook.dispatcher']]
+
+  invertus.ps_training.twig.ps_training_extension:
+    class: 'Invertus\PsTraining\Twig\PsTrainingExtension'
+    tags:
+      - { name: twig.extension }

@@ -5,6 +5,12 @@
 {% block content %}
   <div class="row">
     <div class="col">
+      {{ ps_training() }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
       {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': productGrid} %}
     </div>
   </div>
