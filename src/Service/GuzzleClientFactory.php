@@ -28,6 +28,9 @@ namespace Invertus\PsTraining\Service;
 
 use GuzzleHttp\Client;
 
+/**
+ * Creates HTTP clients for making API requests
+ */
 class GuzzleClientFactory
 {
     public function create($baseUrl)

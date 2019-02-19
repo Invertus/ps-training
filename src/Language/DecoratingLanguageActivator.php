@@ -5,6 +5,9 @@ namespace Invertus\PsTraining\Language;
 use PrestaShop\PrestaShop\Core\ConfigurationInterface;
 use PrestaShop\PrestaShop\Core\Language\LanguageActivatorInterface;
 
+/**
+ * Decorates core LanguageActivator with Shop motto resetting when any language is being disabled.
+ */
 final class DecoratingLanguageActivator implements LanguageActivatorInterface
 {
     /**

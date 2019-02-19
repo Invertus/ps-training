@@ -4,6 +4,9 @@ namespace Invertus\PsTraining\Twig;
 
 use Twig\Extension\AbstractExtension;
 
+/**
+ * Registers custom Twig functions
+ */
 class PsTrainingExtension extends AbstractExtension
 {
     public function getFunctions()
