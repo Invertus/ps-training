@@ -25,7 +25,6 @@ services:
     class: 'Invertus\PsTraining\Currency\ExchangeRatesCurrencyRateUpdater'
     arguments:
       - '@invertus.ps_training.http_client.exchange_rates_guzzle_client'
-      - '@=service("prestashop.adapter.legacy.configuration").get("PS_CURRENCY_DEFAULT")'
 
   invertus.ps_training.command.update_currency_ratio_command:
     class: 'Invertus\PsTraining\Command\UpdateCurrencyRatioCommand'

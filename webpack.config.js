@@ -4,7 +4,7 @@ Encore
   .setOutputPath('public/build/')
   .setPublicPath('/build')
 
-  .addEntry('product', './assets/admin/js/product/index.js')
+  .addEntry('admin/product/index', './assets/admin/js/product/index.js')
 
   .cleanupOutputBeforeBuild()
   .enableSourceMaps(!Encore.isProduction())
