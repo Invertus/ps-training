@@ -2,8 +2,11 @@
 
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
+use PrestaShop\PrestaShop\Core\Grid\Definition\GridDefinitionInterface;
 use PrestaShop\PrestaShop\Core\Grid\Filter\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PsTraining extends Module
 {
@@ -16,7 +19,7 @@ class PsTraining extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->trans('PrestaShop Training module');
+        $this->displayName = $this->trans('PrestaShop Training module', [], 'Modules.Pstraining.Admin');
     }
 
     public function getContent()
@@ -38,9 +41,14 @@ class PsTraining extends Module
         ;
     }
 
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
+
     public function hookActionLanguageGridDefinitionModifier(array $params)
     {
-        /** @var \PrestaShop\PrestaShop\Core\Grid\Definition\GridDefinitionInterface $definition */
+        /** @var GridDefinitionInterface $definition */
         $definition = $params['definition'];
 
         $definition->getColumns()
@@ -70,11 +78,11 @@ class PsTraining extends Module
 
     public function hookActionGeneralPageForm(array $params)
     {
-        /** @var \Symfony\Component\Form\FormBuilder $formBuilder */
+        /** @var FormBuilder $formBuilder */
         $formBuilder = $params['form_builder'];
 
         $formBuilder->add('shop_motto', TextType::class, [
-            'data' => Configuration::get('PS_TRAINING_SHOP_MOTTO'),
+            'data' => $this->get('prestashop.adapter.legacy.configuration')->get('PS_TRAINING_SHOP_MOTTO'),
         ]);
     }
 
@@ -82,6 +90,6 @@ class PsTraining extends Module
     {
         $motto = $params['form_data']['shop_motto'];
 
-        Configuration::updateValue('PS_TRAINING_SHOP_MOTTO', $motto);
+        $this->get('prestashop.adapter.legacy.configuration')->set('PS_TRAINING_SHOP_MOTTO', $motto);
     }
 }
