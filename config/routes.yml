@@ -2,3 +2,8 @@ admin_ps_training_trainings_index:
   path: /ps-training/trainings
   methods: [GET]
   controller: Invertus\PsTraining\Controller\Admin\TrainingController::index
+
+admin_ps_training_trainings_create:
+  path: /ps-training/new
+  methods: [GET]
+  controller: Invertus\PsTraining\Controller\Admin\TrainingController::create

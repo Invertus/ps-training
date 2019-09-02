@@ -1,5 +1,7 @@
 const $ = window.$;
 
-$(document).ready(() => {
-  console.log('IT WORKS');
-});
+(() => {
+  const myText = 'PrestaShop training';
+
+  console.log(myText);
+})();
