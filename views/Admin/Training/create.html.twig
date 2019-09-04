@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group row">
-              <label class="form-control-label">{{ 'Number of attendees' }}</label>
+              <label class="form-control-label">{{ 'Number of attendees'|trans({}, 'Modules.Pstraining.Admin') }}</label>
               <div class="col-sm">
                 {{ form_errors(form.number_of_attendees) }}
                 {{ form_widget(form.number_of_attendees) }}
